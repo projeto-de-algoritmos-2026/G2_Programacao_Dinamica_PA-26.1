@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PD Visual — Estudo de Programação Dinâmica</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="header-inner container">
+      <div class="brand">
+        <span class="brand-icon">∑</span>
+        <span class="brand-name">PD Visual</span>
+      </div>
+      <nav class="nav">
+        <a class="nav-link" href="#topics">Algoritmos</a>
+        <a class="nav-link" href="#knapsack">Knapsack</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero-title">Estudo Visual de<br />Programação Dinâmica</h1>
+        <p class="hero-subtitle">Aprenda algoritmos de PD com explicações visuais passo a passo</p>
+        <a class="btn btn-hero" href="#topics">Explorar Algoritmos</a>
+      </div>
+    </section>
+
+    <!-- ── TÓPICOS ── -->
+    <section id="topics" class="section topics-section">
+      <div class="container">
+        <h2 class="section-title">Algoritmos de PD</h2>
+        <p class="section-subtitle">Selecione um algoritmo para ver a visualização interativa</p>
+        <div class="cards-grid">
+
+          <div class="topic-card coming-soon">
+            <div class="card-icon">📅</div>
+            <h3 class="card-title">Weighted Interval Scheduling</h3>
+            <p class="card-desc">Selecione intervalos com pesos para maximizar o valor total sem sobreposição.</p>
+            <span class="badge badge-soon">Em breve</span>
+          </div>
+
+          <div class="topic-card coming-soon">
+            <div class="card-icon">📈</div>
+            <h3 class="card-title">Maior Subsequência Crescente</h3>
+            <p class="card-desc">Encontre a maior subsequência em ordem crescente de uma sequência dada.</p>
+            <span class="badge badge-soon">Em breve</span>
+          </div>
+
+          <div class="topic-card active" id="knapsack-card">
+            <div class="card-icon">🎒</div>
+            <h3 class="card-title">Knapsack PD</h3>
+            <p class="card-desc">Maximize o valor dos itens na mochila sem ultrapassar a capacidade máxima.</p>
+            <span class="badge badge-active">Disponível</span>
+            <button class="btn btn-card">Ver visualização →</button>
+          </div>
+
+          <div class="topic-card coming-soon">
+            <div class="card-icon">🧬</div>
+            <h3 class="card-title">Alinhamento de Sequências</h3>
+            <p class="card-desc">Compare duas sequências e encontre o alinhamento ótimo com custo mínimo.</p>
+            <span class="badge badge-soon">Em breve</span>
+          </div>
+
+          <div class="topic-card coming-soon">
+            <div class="card-icon">🗺️</div>
+            <h3 class="card-title">Bellman-Ford</h3>
+            <p class="card-desc">Encontre o caminho mais curto em grafos com arestas de peso negativo.</p>
+            <span class="badge badge-soon">Em breve</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── KNAPSACK ── -->
+    <section id="knapsack" class="section knapsack-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🎒 Knapsack com Programação Dinâmica</h2>
+          <p class="section-subtitle">Visualize como a tabela de PD é preenchida célula a célula</p>
+        </div>
+
+        <!-- Explicação teórica -->
+        <div class="theory-box">
+          <h3>O que é o Problema da Mochila?</h3>
+          <p>
+            Dados <strong>N itens</strong>, cada um com um <strong>peso</strong> e um <strong>valor</strong>,
+            e uma mochila com <strong>capacidade máxima W</strong>, o objetivo é escolher quais itens incluir
+            para <strong>maximizar o valor total</strong> sem ultrapassar a capacidade.
+          </p>
+          <p>
+            A tabela <code>dp[i][w]</code> representa o <em>maior valor possível</em> usando os primeiros
+            <em>i</em> itens com uma mochila de capacidade <em>w</em>.
+          </p>
+          <div class="formula-box">
+            <div class="formula-title">Recorrência da PD</div>
+            <code>dp[i][w] = dp[i−1][w]                                      se peso[i] &gt; w</code>
+            <code>dp[i][w] = max( dp[i−1][w],  valor[i] + dp[i−1][w − peso[i]] )  se peso[i] ≤ w</code>
+          </div>
+        </div>
+
+        <!-- Toggle de configuração -->
+        <div class="config-toggle-row">
+          <div class="config-toggle-info">
+            <h3>Configuração do Problema</h3>
+            <p>Use os valores padrão ou personalize os itens e a capacidade</p>
+          </div>
+          <button class="btn btn-outline btn-config" id="btn-config-toggle">
+            ⚙ Personalizar
+          </button>
+        </div>
+
+        <!-- Painel de configuração (colapsável) -->
+        <div class="config-panel" id="config-panel" hidden>
+
+          <div class="config-error" id="config-error" hidden></div>
+
+          <div class="config-items-header">
+            <span class="config-label">Itens <span class="config-label-hint">(máx. 10)</span></span>
+            <button class="btn btn-sm btn-outline" id="btn-add-item">+ Adicionar Item</button>
+          </div>
+
+          <div class="config-table">
+            <div class="config-table-head">
+              <span>Nome</span>
+              <span>Peso</span>
+              <span>Valor</span>
+              <span></span>
+            </div>
+            <div id="config-items-list">
+              <!-- Preenchido pelo script.js -->
+            </div>
+          </div>
+
+          <div class="config-capacity-row">
+            <label class="config-label" for="input-capacity">
+              Capacidade da mochila <span class="config-label-hint">(máx. 20)</span>
+            </label>
+            <input type="number" id="input-capacity" class="config-input config-input-sm"
+                   min="1" max="20" value="8" />
+          </div>
+
+          <div class="config-actions">
+            <button class="btn btn-primary" id="btn-apply-config">Aplicar e Simular →</button>
+            <button class="btn btn-ghost" id="btn-cancel-config">Cancelar</button>
+          </div>
+
+        </div>
+
+        <!-- Itens + Capacidade -->
+        <div class="items-row">
+          <div class="items-panel">
+            <h3>Itens Disponíveis</h3>
+            <div class="items-grid" id="items-list">
+              <!-- Preenchido pelo script.js -->
+            </div>
+          </div>
+          <div class="capacity-panel">
+            <div class="capacity-card">
+              <span class="capacity-label">Capacidade da Mochila</span>
+              <span class="capacity-value" id="capacity-display">8</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel do Visualizador -->
+        <div class="visualizer-panel">
+
+          <div class="visualizer-header">
+            <h3>Tabela de Programação Dinâmica</h3>
+            <span class="step-counter" id="step-counter">Passo 0 de 0</span>
+          </div>
+
+          <!-- Legenda de cores -->
+          <div class="legend">
+            <div class="legend-item">
+              <span class="legend-dot dot-current"></span>Célula atual
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-revealed"></span>Calculado
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-hidden"></span>Não calculado
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-path"></span>Caminho da solução
+            </div>
+          </div>
+
+          <!-- Tabela DP -->
+          <div class="table-wrapper">
+            <table class="dp-table" id="dp-table">
+              <!-- Gerada pelo script.js -->
+            </table>
+          </div>
+
+          <!-- Controles -->
+          <div class="controls">
+            <button class="btn btn-outline" id="btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-outline" id="btn-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="btn-next">Próximo →</button>
+            <button class="btn btn-accent" id="btn-auto">▶ Automático</button>
+          </div>
+
+          <!-- Explicação do passo -->
+          <div class="step-explanation" id="step-explanation">
+            <div class="step-exp-title" id="exp-title"></div>
+            <div class="step-exp-text" id="exp-text"></div>
+          </div>
+
+          <!-- Resultado final (ocultado até o fim) -->
+          <div class="result-panel" id="result-panel" style="display: none;">
+            <h3>🏆 Resultado Final</h3>
+            <div class="result-grid" id="result-content">
+              <!-- Preenchido pelo script.js -->
+            </div>
+          </div>
+
+        </div><!-- /visualizer-panel -->
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>PD Visual — Projeto educacional de Programação Dinâmica &nbsp;·&nbsp; PA 26.1</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
