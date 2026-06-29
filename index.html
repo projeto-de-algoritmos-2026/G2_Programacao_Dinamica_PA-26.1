@@ -18,6 +18,10 @@
       <nav class="nav">
         <a class="nav-link" href="#topics">Algoritmos</a>
         <a class="nav-link" href="#knapsack">Knapsack</a>
+        <a class="nav-link" href="#lis">LIS</a>
+        <a class="nav-link" href="#wis">WIS</a>
+        <a class="nav-link" href="#seq-align">Alinhamento</a>
+        <a class="nav-link" href="#bellman">Bellman-Ford</a>
       </nav>
     </div>
   </header>
@@ -40,18 +44,20 @@
         <p class="section-subtitle">Selecione um algoritmo para ver a visualização interativa</p>
         <div class="cards-grid">
 
-          <div class="topic-card coming-soon">
+          <div class="topic-card active" id="wis-card">
             <div class="card-icon">📅</div>
             <h3 class="card-title">Weighted Interval Scheduling</h3>
             <p class="card-desc">Selecione intervalos com pesos para maximizar o valor total sem sobreposição.</p>
-            <span class="badge badge-soon">Em breve</span>
+            <span class="badge badge-active">Disponível</span>
+            <button class="btn btn-card">Ver visualização →</button>
           </div>
 
-          <div class="topic-card coming-soon">
+          <div class="topic-card active" id="lis-card">
             <div class="card-icon">📈</div>
             <h3 class="card-title">Maior Subsequência Crescente</h3>
             <p class="card-desc">Encontre a maior subsequência em ordem crescente de uma sequência dada.</p>
-            <span class="badge badge-soon">Em breve</span>
+            <span class="badge badge-active">Disponível</span>
+            <button class="btn btn-card">Ver visualização →</button>
           </div>
 
           <div class="topic-card active" id="knapsack-card">
@@ -62,18 +68,20 @@
             <button class="btn btn-card">Ver visualização →</button>
           </div>
 
-          <div class="topic-card coming-soon">
+          <div class="topic-card active" id="sa-card">
             <div class="card-icon">🧬</div>
             <h3 class="card-title">Alinhamento de Sequências</h3>
             <p class="card-desc">Compare duas sequências e encontre o alinhamento ótimo com custo mínimo.</p>
-            <span class="badge badge-soon">Em breve</span>
+            <span class="badge badge-active">Disponível</span>
+            <button class="btn btn-card">Ver visualização →</button>
           </div>
 
-          <div class="topic-card coming-soon">
+          <div class="topic-card active" id="bf-card">
             <div class="card-icon">🗺️</div>
             <h3 class="card-title">Bellman-Ford</h3>
             <p class="card-desc">Encontre o caminho mais curto em grafos com arestas de peso negativo.</p>
-            <span class="badge badge-soon">Em breve</span>
+            <span class="badge badge-active">Disponível</span>
+            <button class="btn btn-card">Ver visualização →</button>
           </div>
 
         </div>
@@ -89,18 +97,13 @@
           <p class="section-subtitle">Visualize como a tabela de PD é preenchida célula a célula</p>
         </div>
 
-        <!-- Explicação teórica -->
         <div class="theory-box">
           <h3>O que é o Problema da Mochila?</h3>
-          <p>
-            Dados <strong>N itens</strong>, cada um com um <strong>peso</strong> e um <strong>valor</strong>,
+          <p>Dados <strong>N itens</strong>, cada um com um <strong>peso</strong> e um <strong>valor</strong>,
             e uma mochila com <strong>capacidade máxima W</strong>, o objetivo é escolher quais itens incluir
-            para <strong>maximizar o valor total</strong> sem ultrapassar a capacidade.
-          </p>
-          <p>
-            A tabela <code>dp[i][w]</code> representa o <em>maior valor possível</em> usando os primeiros
-            <em>i</em> itens com uma mochila de capacidade <em>w</em>.
-          </p>
+            para <strong>maximizar o valor total</strong> sem ultrapassar a capacidade.</p>
+          <p>A tabela <code>dp[i][w]</code> representa o <em>maior valor possível</em> usando os primeiros
+            <em>i</em> itens com uma mochila de capacidade <em>w</em>.</p>
           <div class="formula-box">
             <div class="formula-title">Recorrência da PD</div>
             <code>dp[i][w] = dp[i−1][w]                                      se peso[i] &gt; w</code>
@@ -108,61 +111,42 @@
           </div>
         </div>
 
-        <!-- Toggle de configuração -->
         <div class="config-toggle-row">
           <div class="config-toggle-info">
             <h3>Configuração do Problema</h3>
             <p>Use os valores padrão ou personalize os itens e a capacidade</p>
           </div>
-          <button class="btn btn-outline btn-config" id="btn-config-toggle">
-            ⚙ Personalizar
-          </button>
+          <button class="btn btn-outline btn-config" id="btn-config-toggle">⚙ Personalizar</button>
         </div>
 
-        <!-- Painel de configuração (colapsável) -->
         <div class="config-panel" id="config-panel" hidden>
-
           <div class="config-error" id="config-error" hidden></div>
-
           <div class="config-items-header">
             <span class="config-label">Itens <span class="config-label-hint">(máx. 10)</span></span>
             <button class="btn btn-sm btn-outline" id="btn-add-item">+ Adicionar Item</button>
           </div>
-
           <div class="config-table">
             <div class="config-table-head">
-              <span>Nome</span>
-              <span>Peso</span>
-              <span>Valor</span>
-              <span></span>
+              <span>Nome</span><span>Peso</span><span>Valor</span><span></span>
             </div>
-            <div id="config-items-list">
-              <!-- Preenchido pelo script.js -->
-            </div>
+            <div id="config-items-list"></div>
           </div>
-
           <div class="config-capacity-row">
             <label class="config-label" for="input-capacity">
               Capacidade da mochila <span class="config-label-hint">(máx. 20)</span>
             </label>
-            <input type="number" id="input-capacity" class="config-input config-input-sm"
-                   min="1" max="20" value="8" />
+            <input type="number" id="input-capacity" class="config-input config-input-sm" min="1" max="20" value="8" />
           </div>
-
           <div class="config-actions">
             <button class="btn btn-primary" id="btn-apply-config">Aplicar e Simular →</button>
             <button class="btn btn-ghost" id="btn-cancel-config">Cancelar</button>
           </div>
-
         </div>
 
-        <!-- Itens + Capacidade -->
         <div class="items-row">
           <div class="items-panel">
             <h3>Itens Disponíveis</h3>
-            <div class="items-grid" id="items-list">
-              <!-- Preenchido pelo script.js -->
-            </div>
+            <div class="items-grid" id="items-list"></div>
           </div>
           <div class="capacity-panel">
             <div class="capacity-card">
@@ -172,60 +156,399 @@
           </div>
         </div>
 
-        <!-- Painel do Visualizador -->
         <div class="visualizer-panel">
-
           <div class="visualizer-header">
             <h3>Tabela de Programação Dinâmica</h3>
             <span class="step-counter" id="step-counter">Passo 0 de 0</span>
           </div>
-
-          <!-- Legenda de cores -->
           <div class="legend">
-            <div class="legend-item">
-              <span class="legend-dot dot-current"></span>Célula atual
-            </div>
-            <div class="legend-item">
-              <span class="legend-dot dot-revealed"></span>Calculado
-            </div>
-            <div class="legend-item">
-              <span class="legend-dot dot-hidden"></span>Não calculado
-            </div>
-            <div class="legend-item">
-              <span class="legend-dot dot-path"></span>Caminho da solução
-            </div>
+            <div class="legend-item"><span class="legend-dot dot-current"></span>Célula atual</div>
+            <div class="legend-item"><span class="legend-dot dot-revealed"></span>Calculado</div>
+            <div class="legend-item"><span class="legend-dot dot-hidden"></span>Não calculado</div>
+            <div class="legend-item"><span class="legend-dot dot-path"></span>Caminho da solução</div>
           </div>
-
-          <!-- Tabela DP -->
           <div class="table-wrapper">
-            <table class="dp-table" id="dp-table">
-              <!-- Gerada pelo script.js -->
-            </table>
+            <table class="dp-table" id="dp-table"></table>
           </div>
-
-          <!-- Controles -->
           <div class="controls">
             <button class="btn btn-outline" id="btn-reset">↺ Reiniciar</button>
             <button class="btn btn-outline" id="btn-prev" disabled>← Anterior</button>
             <button class="btn btn-primary" id="btn-next">Próximo →</button>
             <button class="btn btn-accent" id="btn-auto">▶ Automático</button>
           </div>
-
-          <!-- Explicação do passo -->
           <div class="step-explanation" id="step-explanation">
             <div class="step-exp-title" id="exp-title"></div>
             <div class="step-exp-text" id="exp-text"></div>
           </div>
-
-          <!-- Resultado final (ocultado até o fim) -->
           <div class="result-panel" id="result-panel" style="display: none;">
             <h3>🏆 Resultado Final</h3>
-            <div class="result-grid" id="result-content">
-              <!-- Preenchido pelo script.js -->
+            <div class="result-grid" id="result-content"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── LIS ── -->
+    <section id="lis" class="section alt-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">📈 Maior Subsequência Crescente (LIS)</h2>
+          <p class="section-subtitle">Encontre a maior subsequência em ordem estritamente crescente</p>
+        </div>
+
+        <div class="theory-box">
+          <h3>O que é a LIS?</h3>
+          <p>Dada uma sequência de números, encontre a <strong>subsequência mais longa</strong> onde cada elemento é <strong>estritamente maior</strong> que o anterior.</p>
+          <p><code>dp[j]</code> = comprimento da maior subsequência crescente terminando no índice j.</p>
+          <div class="formula-box">
+            <div class="formula-title">Recorrência da PD</div>
+            <code>dp[j] = 1                                               (caso base)</code>
+            <code>dp[j] = max(dp[i] + 1)  para todo i &lt; j onde seq[i] &lt; seq[j]</code>
+            <code>Resposta = max(dp[j])  para todo j</code>
+          </div>
+        </div>
+
+        <div class="config-toggle-row">
+          <div class="config-toggle-info">
+            <h3>Sequência de Entrada</h3>
+            <p>Use os valores padrão ou configure sua própria sequência</p>
+          </div>
+          <button class="btn btn-outline btn-config" id="lis-btn-config-toggle">⚙ Personalizar</button>
+        </div>
+
+        <div class="config-panel" id="lis-config-panel" hidden>
+          <div class="config-error" id="lis-config-error" hidden></div>
+          <div class="config-capacity-row">
+            <label class="config-label" for="lis-input-sequence">
+              Sequência <span class="config-label-hint">(inteiros separados por vírgula, máx. 12)</span>
+            </label>
+            <input type="text" id="lis-input-sequence" class="config-input config-input-text"
+                   value="3, 1, 4, 1, 5, 9, 2, 6" placeholder="ex: 3, 1, 4, 1, 5, 9" />
+          </div>
+          <div class="config-actions">
+            <button class="btn btn-primary" id="lis-btn-apply-config">Aplicar e Simular →</button>
+            <button class="btn btn-ghost" id="lis-btn-cancel-config">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="lis-display">
+          <div class="lis-row">
+            <div class="lis-row-label">Sequência</div>
+            <div class="lis-boxes" id="lis-seq-boxes"></div>
+          </div>
+          <div class="lis-row">
+            <div class="lis-row-label">dp[j]</div>
+            <div class="lis-boxes" id="lis-dp-boxes"></div>
+          </div>
+        </div>
+
+        <div class="visualizer-panel">
+          <div class="visualizer-header">
+            <h3>Preenchimento da Tabela dp</h3>
+            <span class="step-counter" id="lis-step-counter">Passo 0 de 0</span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot" style="background:#bfdbfe;border:2px solid #3b82f6"></span>j (atual)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#fed7aa;border:2px solid #f97316"></span>i (comparado)</div>
+            <div class="legend-item"><span class="legend-dot dot-revealed"></span>Calculado</div>
+            <div class="legend-item"><span class="legend-dot dot-path"></span>LIS final</div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-outline" id="lis-btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-outline" id="lis-btn-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="lis-btn-next">Próximo →</button>
+            <button class="btn btn-accent" id="lis-btn-auto">▶ Automático</button>
+          </div>
+          <div class="step-explanation" id="lis-step-explanation">
+            <div class="step-exp-title" id="lis-exp-title"></div>
+            <div class="step-exp-text" id="lis-exp-text"></div>
+          </div>
+          <div class="result-panel" id="lis-result-panel" style="display:none">
+            <h3>🏆 Resultado Final</h3>
+            <div class="result-grid" id="lis-result-content"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── WIS ── -->
+    <section id="wis" class="section knapsack-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">📅 Weighted Interval Scheduling</h2>
+          <p class="section-subtitle">Selecione intervalos sem sobreposição para maximizar o peso total</p>
+        </div>
+
+        <div class="theory-box">
+          <h3>O que é o WIS?</h3>
+          <p>Dados <strong>N intervalos</strong>, cada um com início, fim e peso, selecione um subconjunto de intervalos <strong>sem sobreposição</strong> que <strong>maximize o peso total</strong>.</p>
+          <p><code>dp[j]</code> = maior peso usando os j primeiros intervalos (ordenados por tempo de término). <code>p(j)</code> = índice do último intervalo compatível com j.</p>
+          <div class="formula-box">
+            <div class="formula-title">Recorrência da PD</div>
+            <code>dp[0] = 0</code>
+            <code>dp[j] = max( peso[j] + dp[p(j)],  dp[j−1] )</code>
+          </div>
+        </div>
+
+        <div class="config-toggle-row">
+          <div class="config-toggle-info">
+            <h3>Configuração dos Intervalos</h3>
+            <p>Use os valores padrão ou configure seus próprios intervalos</p>
+          </div>
+          <button class="btn btn-outline btn-config" id="wis-btn-config-toggle">⚙ Personalizar</button>
+        </div>
+
+        <div class="config-panel" id="wis-config-panel" hidden>
+          <div class="config-error" id="wis-config-error" hidden></div>
+          <div class="config-items-header">
+            <span class="config-label">Intervalos <span class="config-label-hint">(máx. 8)</span></span>
+            <button class="btn btn-sm btn-outline" id="wis-btn-add-interval">+ Adicionar</button>
+          </div>
+          <div class="config-table">
+            <div class="config-table-head" style="grid-template-columns:1fr 1fr 1fr 42px">
+              <span>Início</span><span>Fim</span><span>Peso</span><span></span>
+            </div>
+            <div id="wis-config-items-list"></div>
+          </div>
+          <div class="config-actions">
+            <button class="btn btn-primary" id="wis-btn-apply-config">Aplicar e Simular →</button>
+            <button class="btn btn-ghost" id="wis-btn-cancel-config">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="wis-display">
+          <div class="wis-timeline-header">
+            <span class="wis-col-label">Intervalo</span>
+            <span class="wis-col-label wis-col-track">Linha do tempo</span>
+            <span class="wis-col-label">[início, fim)</span>
+          </div>
+          <div id="wis-timeline"></div>
+          <div class="wis-dp-row">
+            <span class="wis-dp-label">Array dp:</span>
+            <div class="wis-dp-boxes" id="wis-dp-array"></div>
+          </div>
+        </div>
+
+        <div class="visualizer-panel">
+          <div class="visualizer-header">
+            <h3>Preenchimento da Tabela dp</h3>
+            <span class="step-counter" id="wis-step-counter">Passo 0 de 0</span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot dot-current"></span>Intervalo atual</div>
+            <div class="legend-item"><span class="legend-dot dot-revealed"></span>Processado</div>
+            <div class="legend-item"><span class="legend-dot dot-path"></span>Selecionado</div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-outline" id="wis-btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-outline" id="wis-btn-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="wis-btn-next">Próximo →</button>
+            <button class="btn btn-accent" id="wis-btn-auto">▶ Automático</button>
+          </div>
+          <div class="step-explanation" id="wis-step-explanation">
+            <div class="step-exp-title" id="wis-exp-title"></div>
+            <div class="step-exp-text" id="wis-exp-text"></div>
+          </div>
+          <div class="result-panel" id="wis-result-panel" style="display:none">
+            <h3>🏆 Resultado Final</h3>
+            <div class="result-grid" id="wis-result-content"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SEQUENCE ALIGNMENT ── -->
+    <section id="seq-align" class="section alt-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🧬 Alinhamento de Sequências</h2>
+          <p class="section-subtitle">Encontre o alinhamento ótimo entre duas sequências usando PD</p>
+        </div>
+
+        <div class="theory-box">
+          <h3>O que é o Alinhamento de Sequências?</h3>
+          <p>Dados <strong>duas sequências</strong> e pontuações para match, mismatch e gap, calcule a <strong>pontuação máxima de alinhamento</strong>.</p>
+          <p><code>dp[i][j]</code> = pontuação ótima alinhando os primeiros i chars de seq1 com os primeiros j chars de seq2.</p>
+          <div class="formula-box">
+            <div class="formula-title">Recorrência da PD</div>
+            <code>dp[i][0] = i × gap,   dp[0][j] = j × gap</code>
+            <code>dp[i][j] = max( dp[i−1][j−1] + score(s1[i],s2[j]),   dp[i−1][j] + gap,   dp[i][j−1] + gap )</code>
+          </div>
+        </div>
+
+        <div class="config-toggle-row">
+          <div class="config-toggle-info">
+            <h3>Configuração das Sequências</h3>
+            <p>Use os valores padrão ou configure suas próprias sequências e parâmetros</p>
+          </div>
+          <button class="btn btn-outline btn-config" id="sa-btn-config-toggle">⚙ Personalizar</button>
+        </div>
+
+        <div class="config-panel" id="sa-config-panel" hidden>
+          <div class="config-error" id="sa-config-error" hidden></div>
+          <div class="sa-config-grid">
+            <div class="config-capacity-row">
+              <label class="config-label" for="sa-input-seq1">Sequência 1 <span class="config-label-hint">(máx. 10)</span></label>
+              <input type="text" id="sa-input-seq1" class="config-input config-input-text" value="ATCG" maxlength="10" />
+            </div>
+            <div class="config-capacity-row">
+              <label class="config-label" for="sa-input-seq2">Sequência 2 <span class="config-label-hint">(máx. 10)</span></label>
+              <input type="text" id="sa-input-seq2" class="config-input config-input-text" value="TCG" maxlength="10" />
+            </div>
+            <div class="config-capacity-row">
+              <label class="config-label" for="sa-input-match">Score Match</label>
+              <input type="number" id="sa-input-match" class="config-input config-input-sm" value="1" />
+            </div>
+            <div class="config-capacity-row">
+              <label class="config-label" for="sa-input-mismatch">Penalidade Mismatch</label>
+              <input type="number" id="sa-input-mismatch" class="config-input config-input-sm" value="-1" />
+            </div>
+            <div class="config-capacity-row">
+              <label class="config-label" for="sa-input-gap">Penalidade Gap</label>
+              <input type="number" id="sa-input-gap" class="config-input config-input-sm" value="-2" />
             </div>
           </div>
+          <div class="config-actions">
+            <button class="btn btn-primary" id="sa-btn-apply-config">Aplicar e Simular →</button>
+            <button class="btn btn-ghost" id="sa-btn-cancel-config">Cancelar</button>
+          </div>
+        </div>
 
-        </div><!-- /visualizer-panel -->
+        <div class="visualizer-panel">
+          <div class="visualizer-header">
+            <h3>Tabela de Programação Dinâmica</h3>
+            <span class="step-counter" id="sa-step-counter">Passo 0 de 0</span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot dot-current"></span>Célula atual</div>
+            <div class="legend-item"><span class="legend-dot dot-revealed"></span>Calculado</div>
+            <div class="legend-item"><span class="legend-dot dot-hidden"></span>Não calculado</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f1f5f9;border:2px solid #94a3b8"></span>Caso base</div>
+          </div>
+          <div class="table-wrapper">
+            <table class="dp-table" id="sa-dp-table"></table>
+          </div>
+          <div class="controls">
+            <button class="btn btn-outline" id="sa-btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-outline" id="sa-btn-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="sa-btn-next">Próximo →</button>
+            <button class="btn btn-accent" id="sa-btn-auto">▶ Automático</button>
+          </div>
+          <div class="step-explanation" id="sa-step-explanation">
+            <div class="step-exp-title" id="sa-exp-title"></div>
+            <div class="step-exp-text" id="sa-exp-text"></div>
+          </div>
+          <div class="result-panel" id="sa-result-panel" style="display:none">
+            <h3>🏆 Resultado Final</h3>
+            <div class="result-grid" id="sa-result-content"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── BELLMAN-FORD ── -->
+    <section id="bellman" class="section knapsack-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🗺️ Bellman-Ford</h2>
+          <p class="section-subtitle">Caminho mais curto de fonte única, com suporte a arestas negativas</p>
+        </div>
+
+        <div class="theory-box">
+          <h3>O que é o Bellman-Ford?</h3>
+          <p>Dado um grafo direcionado com pesos (possivelmente negativos) e um <strong>vértice fonte</strong>, calcule a <strong>distância mínima</strong> até todos os outros vértices.</p>
+          <p>O algoritmo relaxa todas as arestas <strong>|V|−1 vezes</strong>. Se ainda for possível reduzir distâncias após isso, existe um <strong>ciclo negativo</strong>.</p>
+          <div class="formula-box">
+            <div class="formula-title">Recorrência</div>
+            <code>dist[fonte] = 0,  dist[v] = ∞ para demais vértices</code>
+            <code>Para cada iteração e cada aresta (u→v, w):</code>
+            <code>  se dist[u] + w &lt; dist[v]:  dist[v] = dist[u] + w</code>
+          </div>
+        </div>
+
+        <div class="config-toggle-row">
+          <div class="config-toggle-info">
+            <h3>Configuração do Grafo</h3>
+            <p>Use o grafo padrão ou configure seus próprios vértices e arestas</p>
+          </div>
+          <button class="btn btn-outline btn-config" id="bf-btn-config-toggle">⚙ Personalizar</button>
+        </div>
+
+        <div class="config-panel" id="bf-config-panel" hidden>
+          <div class="config-error" id="bf-config-error" hidden></div>
+          <div class="bf-config-header-row">
+            <div class="config-capacity-row">
+              <label class="config-label" for="bf-input-vertices">Nº de Vértices <span class="config-label-hint">(2–20)</span></label>
+              <input type="number" id="bf-input-vertices" class="config-input config-input-sm" value="4" min="2" max="20" />
+            </div>
+            <div class="config-capacity-row">
+              <label class="config-label" for="bf-input-source">Vértice Fonte</label>
+              <input type="number" id="bf-input-source" class="config-input config-input-sm" value="0" min="0" />
+            </div>
+          </div>
+          <div class="config-items-header">
+            <span class="config-label">Arestas <span class="config-label-hint">(máx. 15)</span></span>
+            <button class="btn btn-sm btn-outline" id="bf-btn-add-edge">+ Adicionar</button>
+          </div>
+          <div class="config-table">
+            <div class="config-table-head" style="grid-template-columns:1fr 1fr 1fr 42px">
+              <span>Origem</span><span>Destino</span><span>Peso</span><span></span>
+            </div>
+            <div id="bf-config-edges-list"></div>
+          </div>
+          <div class="config-actions">
+            <button class="btn btn-primary" id="bf-btn-apply-config">Aplicar e Simular →</button>
+            <button class="btn btn-ghost" id="bf-btn-cancel-config">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="bf-display">
+          <div class="bf-dist-section">
+            <h3 class="bf-display-title">Distâncias</h3>
+            <div class="bf-dist-boxes" id="bf-dist-array"></div>
+          </div>
+          <div class="bf-edges-section">
+            <h3 class="bf-display-title">Arestas</h3>
+            <div class="bf-edges-header">
+              <span>Aresta</span><span>Peso</span><span>dist[u]</span><span>dist[v]</span>
+            </div>
+            <div id="bf-edges-table"></div>
+          </div>
+        </div>
+
+        <div class="visualizer-panel">
+          <div class="visualizer-header">
+            <h3>Relaxamento de Arestas</h3>
+            <span class="step-counter" id="bf-step-counter">Passo 0 de 0</span>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot dot-current"></span>Aresta ativa</div>
+            <div class="legend-item"><span class="legend-dot dot-path"></span>Distância atualizada</div>
+            <div class="legend-item"><span class="legend-dot dot-revealed"></span>Alcançado</div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-outline" id="bf-btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-outline" id="bf-btn-prev" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="bf-btn-next">Próximo →</button>
+            <button class="btn btn-accent" id="bf-btn-auto">▶ Automático</button>
+          </div>
+          <div class="step-explanation" id="bf-step-explanation">
+            <div class="step-exp-title" id="bf-exp-title"></div>
+            <div class="step-exp-text" id="bf-exp-text"></div>
+          </div>
+          <div class="result-panel" id="bf-result-panel" style="display:none">
+            <h3>🏆 Resultado Final</h3>
+            <div class="result-grid" id="bf-result-content"></div>
+          </div>
+        </div>
 
       </div>
     </section>
