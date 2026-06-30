@@ -43,7 +43,14 @@ package.json
 
 ## Screenshots
 
-As capturas de tela ainda não foram adicionadas ao repositório.
+### Página Inicial — todos os algoritmos disponíveis
+![Home](screenshots/01-home.png)
+
+### Knapsack — visualizador da tabela de PD
+![Knapsack](screenshots/02-knapsack.png)
+
+### LIS — visualizador da maior subsequência crescente
+![LIS](screenshots/03-lis.png)
 
 ## Instalação
 
