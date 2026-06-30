@@ -127,4 +127,4 @@ http://127.0.0.1:5173
 
 ## Vídeo
 
-- Adicionar link da apresentação.
+- [Vídeo de apresentação](https://youtu.be/cxGHLHSJLss)
